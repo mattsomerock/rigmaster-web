@@ -1,0 +1,334 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ==========================================================================
+   Design tokens
+   Brand: deep ink #0B0D12 · warm ivory text · antique gold used sparingly.
+   --cta (fire red) is reserved for the single primary action on the page.
+   ========================================================================== */
+:root {
+  color-scheme: dark;
+
+  --ink: #ede8dc;
+  --ink-2: #bdb7aa;
+  --gold: #c9a227;
+  --gold-soft: #dcc16a;
+  --line: rgb(237 232 220 / 0.08);
+  --line-strong: rgb(237 232 220 / 0.15);
+  --surface: #101318;
+  --surface-2: #151920;
+  --deep: #07080b;
+  --warn: #141109;
+  --cta: #d93a1c;
+  --cta-hover: #e5472a;
+
+  /* shadcn semantic tokens (dark only) */
+  --background: #0b0d12;
+  --foreground: var(--ink);
+  --card: var(--surface);
+  --card-foreground: var(--ink);
+  --popover: var(--surface-2);
+  --popover-foreground: var(--ink);
+  --primary: var(--gold);
+  --primary-foreground: #0b0d12;
+  --secondary: var(--surface-2);
+  --secondary-foreground: var(--ink);
+  --muted: var(--surface-2);
+  --muted-foreground: #8f8a7f;
+  --accent: var(--surface-2);
+  --accent-foreground: var(--ink);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: var(--line);
+  --input: var(--line-strong);
+  --ring: var(--gold-soft);
+  --chart-1: var(--gold);
+  --chart-2: var(--gold-soft);
+  --chart-3: #8f8a7f;
+  --chart-4: #5c584f;
+  --chart-5: #34322d;
+  --radius: 0.25rem;
+  --sidebar: var(--surface);
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: var(--gold);
+  --sidebar-primary-foreground: #0b0d12;
+  --sidebar-accent: var(--surface-2);
+  --sidebar-accent-foreground: var(--ink);
+  --sidebar-border: var(--line);
+  --sidebar-ring: var(--gold-soft);
+
+  --sec: clamp(104px, 13vw, 184px);
+  --header-h: 76px;
+}
+
+@theme inline {
+  --font-sans: var(--font-thai), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-thai), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-instrument), "Times New Roman", serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-deep: var(--deep);
+  --color-warn: var(--warn);
+  --color-cta: var(--cta);
+  --color-cta-hover: var(--cta-hover);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-size: 1.0625rem;
+    line-height: 1.8;
+    overflow-x: clip;
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+  ::selection {
+    background: var(--gold);
+    color: #0b0d12;
+  }
+  :focus-visible {
+    outline: 2px solid var(--gold-soft);
+    outline-offset: 4px;
+  }
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+  /* Avoid one-word last lines (common with Thai dictionary line breaking). */
+  p,
+  li,
+  dt,
+  dd,
+  blockquote {
+    text-wrap: pretty;
+  }
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+/* ==========================================================================
+   Layout + type system
+   ========================================================================== */
+@utility container-lux {
+  width: 100%;
+  max-width: 1320px;
+  margin-inline: auto;
+  padding-inline: clamp(20px, 5vw, 64px);
+}
+
+@layer components {
+  .t-display {
+    font-weight: 300;
+    font-size: clamp(2.45rem, 6.1vw, 5.6rem);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+  .t-h2 {
+    font-weight: 300;
+    font-size: clamp(1.95rem, 4.3vw, 3.6rem);
+    line-height: 1.28;
+    letter-spacing: -0.005em;
+  }
+  .t-h3 {
+    font-weight: 400;
+    font-size: clamp(1.3rem, 2.1vw, 1.7rem);
+    line-height: 1.45;
+  }
+  .t-lead {
+    font-size: clamp(1.06rem, 1.35vw, 1.2rem);
+    line-height: 1.85;
+    color: var(--ink-2);
+  }
+  /* Latin-only. Letter-spacing tears Thai clusters apart — never use on Thai. */
+  .t-caps {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+  }
+  .t-num {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-variant-numeric: lining-nums tabular-nums;
+    letter-spacing: -0.02em;
+  }
+  .t-outline {
+    color: transparent;
+    -webkit-text-stroke: 1px rgb(201 162 39 / 0.42);
+  }
+  .hairline-gold {
+    background: linear-gradient(90deg, transparent, rgb(201 162 39 / 0.45), transparent);
+  }
+
+  /* Masked line reveal. The padding keeps Thai upper vowels/tone marks
+     and lower vowels from being clipped by overflow:hidden. */
+  .line {
+    display: block;
+    overflow: hidden;
+    padding-block: 0.14em 0.1em;
+    margin-block: -0.14em -0.1em;
+  }
+  .line > span {
+    display: inline-block;
+    will-change: transform;
+  }
+
+  .grid-lines {
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 88px 88px;
+  }
+}
+
+/* Film grain — static SVG noise, no blending, negligible cost */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ==========================================================================
+   Motion initial states — only applied when JS motion is available
+   (class added by an inline script in <head>; removed if motion fails).
+   ========================================================================== */
+.js-motion [data-split] .line > span {
+  transform: translateY(112%);
+}
+.js-motion [data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+}
+.js-motion [data-hero-in] {
+  opacity: 0;
+  transform: translateY(22px);
+}
+.js-motion [data-hero-veil] {
+  opacity: 1;
+}
+.js-motion [data-hero-meta] {
+  opacity: 0;
+}
+
+@keyframes rm-ping {
+  0% {
+    transform: scale(0.4);
+    opacity: 0.9;
+  }
+  80%,
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+@keyframes rm-cue {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  50% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  51% {
+    transform-origin: bottom;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+}
+@keyframes rm-shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
