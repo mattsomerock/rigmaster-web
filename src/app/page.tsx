@@ -1,17 +1,11 @@
 import { MotionOrchestrator } from "@/components/motion/motion-orchestrator"
-import { Explain } from "@/components/sections/explain"
 import { Faq } from "@/components/sections/faq"
 import { FinalCta } from "@/components/sections/final-cta"
 import { Footer } from "@/components/sections/footer"
-import { Guide } from "@/components/sections/guide"
 import { Hero } from "@/components/sections/hero"
-import { Level } from "@/components/sections/level"
-import { Money } from "@/components/sections/money"
-import { Plan } from "@/components/sections/plan"
-import { Proof } from "@/components/sections/proof"
+import { Offer } from "@/components/sections/offer"
 import { Risk } from "@/components/sections/risk"
-import { Stakes } from "@/components/sections/stakes"
-import { Value } from "@/components/sections/value"
+import { Story } from "@/components/sections/story"
 import { Analytics } from "@/components/site/analytics"
 import { ChapterRail } from "@/components/site/chapter-rail"
 import { SiteHeader } from "@/components/site/header"
@@ -21,8 +15,8 @@ import { site } from "@/lib/site"
 
 /*
  * StoryBrand landing page — one job: turn visitors into LINE OA friends.
- * Order: Header → Proof → Stakes → Value → Guide → Plan → Risk → Money →
- *        Levels → Explanatory → FAQ → Final CTA → Footer.
+ * Hook → Story → Offer → Risk → Detail (FAQ) → Close → Footer.
+ * Say each thing once; anything a careful reader wants goes in the FAQ.
  */
 const jsonLd = [
   {
@@ -56,15 +50,9 @@ export default function Home() {
 
       <main id="main">
         <Hero />
-        <Proof />
-        <Stakes />
-        <Value />
-        <Guide />
-        <Plan />
+        <Story />
+        <Offer />
         <Risk />
-        <Money />
-        <Level />
-        <Explain />
         <Faq />
         <FinalCta />
       </main>

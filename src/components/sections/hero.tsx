@@ -1,112 +1,77 @@
-import Image from "next/image"
-
+import { LoopVideo } from "@/components/motion/loop-video"
 import { ParallaxComponent, type ParallaxLayer } from "@/components/ui/parallax-scrolling"
-import { Rain } from "@/components/motion/rain"
 import { CtaPair } from "@/components/site/cta"
 import { Em, SplitHeading } from "@/components/site/typography"
-import { site } from "@/lib/site"
-import rig from "@/assets/rig.webp"
+import { asset, site } from "@/lib/site"
+import rigPoster from "@/assets/rig-poster.webp"
 
-/* Both image layers share identical geometry so they line up perfectly at rest;
-   only their scroll speed differs — that difference is the depth. */
-const RIG_POSITION = "object-[50%_78%] lg:object-[50%_86%]"
-
+/*
+ * HOOK. One promise, one line of offer, two buttons.
+ * Phone: the film fills the screen and the copy sits on the dark water at the bottom.
+ * Desktop: the portrait film becomes a panel on the right that dissolves into the page,
+ * so it is shown near its native resolution instead of being blown up full-bleed.
+ */
 const layers: ParallaxLayer[] = [
   {
-    id: "rig",
-    yPercent: 70,
+    id: "film",
+    yPercent: 30,
     content: (
-      <>
-        <Image
-          src={rig}
-          alt=""
-          fill
+      <div className="absolute inset-0 lg:left-auto lg:w-[60%] lg:[mask-image:linear-gradient(to_right,transparent,#000_36%)]">
+        <LoopVideo
+          src={asset("/media/rig-loop.mp4")}
+          poster={rigPoster}
           preload
-          placeholder="blur"
-          sizes="100vw"
-          className={`object-cover ${RIG_POSITION}`}
+          sizes="(min-width: 1024px) 60vw, 100vw"
+          mediaClassName="object-[50%_20%] lg:object-[50%_62%]"
         />
         <div
           aria-hidden
-          className="absolute inset-0 bg-[radial-gradient(70%_55%_at_50%_38%,rgb(11_13_18/0.86)_0%,rgb(11_13_18/0.55)_55%,rgb(11_13_18/0.25)_100%)]"
+          className="absolute inset-0 bg-[linear-gradient(180deg,rgb(11_13_18/0.7)_0%,rgb(11_13_18/0)_20%,rgb(11_13_18/0.05)_34%,rgb(11_13_18/0.82)_56%,var(--background)_88%)] lg:bg-[linear-gradient(180deg,rgb(11_13_18/0.55)_0%,rgb(11_13_18/0)_24%,rgb(11_13_18/0)_68%,var(--background)_100%)]"
         />
-        <div aria-hidden className="absolute inset-x-0 top-0 h-2/5 bg-linear-to-b from-background/90 to-transparent" />
-      </>
+      </div>
     ),
   },
   {
-    id: "atmosphere",
-    yPercent: 55,
+    id: "glow",
+    yPercent: 45,
     content: (
-      <>
-        <div
-          aria-hidden
-          className="absolute inset-0 bg-[radial-gradient(45%_35%_at_50%_62%,rgb(201_162_39/0.16),transparent_70%)]"
-        />
-        <Rain className="absolute inset-0 opacity-60" />
-      </>
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-[radial-gradient(60%_40%_at_50%_30%,rgb(201_162_39/0.12),transparent_70%)] lg:bg-[radial-gradient(40%_50%_at_62%_45%,rgb(201_162_39/0.12),transparent_70%)]"
+      />
     ),
   },
   {
     id: "copy",
     yPercent: 40,
-    className: "flex items-start justify-center",
     content: (
-      <div className="container-lux flex flex-col items-center pt-[calc(var(--header-h)+clamp(16px,4vh,40px))] text-center lg:pt-[calc(var(--header-h)+clamp(20px,6vh,80px))]">
-        <p data-hero-in className="t-caps mb-7 flex items-center gap-3 text-gold-soft">
-          <span aria-hidden className="hidden h-px w-8 bg-gold/60 sm:block" />
-          <span>
-            Automated Oil Portfolio<span className="hidden sm:inline"> · USOUSD</span>
-          </span>
-          <span aria-hidden className="hidden h-px w-8 bg-gold/60 sm:block" />
-        </p>
-        <SplitHeading
-          as="h1"
-          id="hero-title"
-          className="t-display max-w-[15ch] text-ink"
-          lines={["ให้ระบบเทรดแทนคุณ", "โดยเงินยังอยู่ใน", <Em key="e">บัญชีของคุณเอง</Em>]}
-        />
-        <p data-hero-in className="t-lead mt-7 max-w-[36rem]">
-          RIG MASTER เปิดพอร์ตเทรดน้ำมันอัตโนมัติของเรา ให้คุณดูทุกไม้<span className="whitespace-nowrap">แบบเรียลไทม์</span>{" "}
-          แล้วให้คุณก็อปปี้ตาม{" "}
-          <span className="text-ink">เราได้ส่วนแบ่งเฉพาะตอนที่คุณมีกำไรเท่านั้น ถ้าคุณไม่ได้ เราก็ไม่ได้</span>
-        </p>
-        <div data-hero-in id="hero-cta" className="mt-10 w-full sm:w-auto">
-          <CtaPair location="hero" className="justify-center" />
-        </div>
-        <div data-hero-in className="mt-6 text-[0.8125rem] leading-relaxed text-muted-foreground">
-          <p className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-ink-2">
-            <span>ไม่มีค่าสมัคร</span>
-            <span aria-hidden className="size-0.5 rounded-full bg-gold" />
-            <span>ไม่มีสัญญาผูกมัด</span>
-            <span aria-hidden className="size-0.5 rounded-full bg-gold" />
-            <span>หยุดได้ทุกเมื่อ</span>
+      <div className="container-lux flex h-full flex-col justify-end pb-[max(36px,calc(env(safe-area-inset-bottom)+20px))] lg:justify-center lg:pt-(--header-h) lg:pb-0">
+        <div className="max-w-[35rem]">
+          <p data-hero-in className="t-caps mb-6 flex items-center gap-3 text-gold-soft">
+            <span aria-hidden className="h-px w-8 bg-gold/60" />
+            Automated Oil Portfolio · USOUSD
           </p>
-          <p className="mt-1 text-ink-2/85">
+          <SplitHeading
+            as="h1"
+            id="hero-title"
+            className="t-display text-ink"
+            lines={["ให้ระบบเทรดแทนคุณ", "โดยเงินยังอยู่ใน", <Em key="e">บัญชีของคุณเอง</Em>]}
+          />
+          <p data-hero-in className="t-lead mt-6 max-w-[30rem]">
+            ก็อปปี้พอร์ตเทรดน้ำมันอัตโนมัติที่เปิดให้ดูสดทุกไม้
+            <span className="block text-ink">เราได้ส่วนแบ่งเฉพาะวันที่คุณมีกำไร</span>
+          </p>
+          <div data-hero-in id="hero-cta" className="pointer-events-auto mt-8">
+            <CtaPair location="hero" />
+          </div>
+          <p data-hero-in className="mt-5 text-[0.8125rem] text-ink-2/85">
             มีความเสี่ยง{" "}
             <a href="#risk" className="pointer-events-auto underline decoration-line-strong underline-offset-4 hover:text-ink">
-              โปรดอ่านข้อมูลก่อนตัดสินใจ
+              อ่านก่อนตัดสินใจ
             </a>
           </p>
         </div>
       </div>
-    ),
-  },
-  {
-    id: "sea",
-    yPercent: 10,
-    className: "pointer-events-none",
-    content: (
-      <>
-        <Image
-          src={rig}
-          alt=""
-          fill
-          sizes="100vw"
-          className={`object-cover ${RIG_POSITION} [mask-image:linear-gradient(to_bottom,transparent_84%,#000_97%)] lg:[mask-image:linear-gradient(to_bottom,transparent_78%,#000_94%)]`}
-        />
-        <div aria-hidden className="absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-b from-transparent to-background/70" />
-      </>
     ),
   },
 ]
@@ -117,14 +82,14 @@ export function Hero() {
       id="top"
       data-hero=""
       aria-labelledby="hero-title"
-      className="h-[max(100svh,860px)] lg:h-[max(100svh,720px)]"
+      className="h-[max(100svh,640px)] lg:h-[max(100svh,720px)]"
       layers={layers}
       overlay={
         <>
           <div data-hero-veil aria-hidden className="absolute inset-0 bg-background opacity-0" />
           <div
             data-hero-meta
-            className="container-lux absolute inset-x-0 bottom-7 hidden items-end justify-between text-[0.6875rem] tracking-[0.22em] text-muted-foreground uppercase md:flex"
+            className="container-lux absolute inset-x-0 bottom-7 hidden items-end justify-between text-[0.6875rem] tracking-[0.22em] text-muted-foreground uppercase lg:flex"
           >
             <span>MT5 · PU Prime · Grid</span>
             <span aria-hidden className="flex flex-col items-center gap-3">

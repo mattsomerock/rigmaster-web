@@ -18,16 +18,14 @@ declare global {
  *
  *   data-split            heading whose `.line > span` children rise into view
  *   data-reveal           fades/lifts in (batched)
- *   data-count="307"      counts up once
  *   data-scrub + data-w   words brighten as you scroll
- *   data-stack-card       sticky card that recedes as the next one arrives
  *   data-tilt-in          3D panel that flattens as it enters
  *   data-draw             SVG stroke draws once
  *   data-clip-in          image unmasks with scroll
  *   data-widen            section grows from inset to full-bleed
  *   data-plan …           progress rail + steps
  *   data-hazard           stripe drift
- *   data-zoom-out         background scales down as its section arrives
+ *   data-zoom-out         background scales down as its frame arrives
  *   data-magnetic         pointer-follow (fine pointers only)
  */
 export function MotionOrchestrator() {
@@ -89,31 +87,6 @@ export function MotionOrchestrator() {
             gsap.to(els, { opacity: 1, y: 0, duration: 1.15, ease: "expo.out", stagger: 0.08, overwrite: true }),
         })
 
-        /* ---------- Counters ---------- */
-        q("[data-count]").forEach((el) => {
-          const end = Number(el.dataset.count)
-          const o = { v: 0 }
-          el.textContent = "0"
-          ScrollTrigger.create({
-            trigger: el,
-            start: "top 92%",
-            once: true,
-            onEnter: () =>
-              gsap.to(o, {
-                v: end,
-                duration: 2.2,
-                ease: "expo.out",
-                delay: 0.1,
-                onUpdate: () => {
-                  el.textContent = String(Math.round(o.v))
-                },
-              }),
-          })
-          cleanups.push(() => {
-            el.textContent = String(end)
-          })
-        })
-
         /* ---------- Scrubbed words ---------- */
         q("[data-scrub]").forEach((block) => {
           gsap.fromTo(
@@ -126,17 +99,6 @@ export function MotionOrchestrator() {
               scrollTrigger: { trigger: block, start: "top 82%", end: "bottom 52%", scrub: 0.6 },
             }
           )
-        })
-
-        /* ---------- Stacked cards ---------- */
-        const cards = q("[data-stack-card]")
-        cards.forEach((card, i) => {
-          const next = cards[i + 1]
-          if (!next) return
-          const st = { trigger: next, start: "top bottom", end: "top 28%", scrub: true }
-          gsap.to(card, { scale: 0.94 - (cards.length - i - 2) * 0.025, ease: "none", scrollTrigger: st })
-          const shade = card.querySelector("[data-stack-shade]")
-          if (shade) gsap.to(shade, { opacity: 0.62, ease: "none", scrollTrigger: st })
         })
 
         /* ---------- 3D panel ---------- */
@@ -236,7 +198,7 @@ export function MotionOrchestrator() {
           })
         })
 
-        /* ---------- Final arrival ---------- */
+        /* ---------- Camera pull-back on full-bleed media ---------- */
         q("[data-zoom-out]").forEach((el) => {
           gsap.fromTo(
             el,
@@ -245,7 +207,7 @@ export function MotionOrchestrator() {
               scale: 1,
               ease: "none",
               scrollTrigger: {
-                trigger: el.closest("section") ?? el,
+                trigger: el.parentElement ?? el,
                 start: "top bottom",
                 end: "center center",
                 scrub: true,

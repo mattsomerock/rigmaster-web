@@ -6,10 +6,11 @@ import { track } from "@/lib/track"
 
 /**
  * Funnel instrumentation (GTM dataLayer):
- *   lp_view → reach_risk_section → cta_primary (with location) → LINE friend
+ *   lp_view → scroll_depth (25/50/75/100) → reach_risk_section → cta_primary (with location) → LINE friend
  * Clicks are captured by delegation from any element carrying data-track.
  */
 let viewTracked = false
+const DEPTHS = [25, 50, 75, 100]
 
 export function Analytics() {
   React.useEffect(() => {
@@ -36,8 +37,30 @@ export function Analytics() {
     )
     if (risk) io.observe(risk)
 
+    // Where do people stop reading? Each threshold fires once per page view.
+    const sent = new Set<number>()
+    let frame = 0
+    const measure = () => {
+      frame = 0
+      const el = document.documentElement
+      const pct = ((window.scrollY + window.innerHeight) / el.scrollHeight) * 100
+      for (const d of DEPTHS) {
+        if (pct >= d - 1 && !sent.has(d)) {
+          sent.add(d)
+          track("scroll_depth", { percent: d })
+        }
+      }
+      if (sent.size === DEPTHS.length) window.removeEventListener("scroll", onScroll)
+    }
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(measure)
+    }
+    window.addEventListener("scroll", onScroll, { passive: true })
+
     return () => {
       document.removeEventListener("click", onClick)
+      window.removeEventListener("scroll", onScroll)
+      cancelAnimationFrame(frame)
       io.disconnect()
     }
   }, [])

@@ -21,3 +21,6 @@ export const site = {
 } as const;
 
 export const isExternal = (href: string) => /^https?:\/\//.test(href);
+
+/** Files in /public need the basePath added by hand (next/image does it for imports). */
+export const asset = (path: string) => `${process.env.NEXT_PUBLIC_BASE_PATH?.replace(/\/$/, "") ?? ""}${path}`;

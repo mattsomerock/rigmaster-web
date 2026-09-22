@@ -30,11 +30,10 @@ Other static hosts: `npm run build` and upload `out/`. For a sub-path, set `NEXT
 | Confirm LINE OA ID and link | `src/lib/site.ts` → `lineId`, `links.line` |
 | Risk disclosure + privacy policy links | `src/lib/site.ts` → `links.riskDoc`, `links.privacy` |
 | Real domain (OG tags, schema) | `NEXT_PUBLIC_SITE_URL` env or `src/lib/site.ts` → `url` |
-| Real dashboard screenshot | `src/components/sections/proof.tsx` → `<DashboardFrame shot={import} />` |
-| Founder photo | `src/components/sections/guide.tsx` (placeholder comment) |
-| Founder story (true events only) | `src/components/sections/guide.tsx` → `<Placeholder>` |
+| Real dashboard screenshot | `src/components/sections/offer.tsx` → `<DashboardFrame shot={import} />` |
+| Founder photo | `src/components/sections/story.tsx` (placeholder comment) |
+| Founder story (true events only) | `src/components/sections/story.tsx` → `<Placeholder>` |
 | FAQ: minimum capital, "has it ever lost?" | `src/content/faq.tsx` |
-| Hero image — replace with a licensed / real photo | `src/assets/rig.webp` |
 
 Search the code for `data-placeholder` or `TODO` to find every slot.
 
@@ -42,8 +41,13 @@ Search the code for `data-placeholder` or `TODO` to find every slot.
 
 - Exactly two button types: `PrimaryCta` ("เริ่มต้น 3 ขั้นตอน" → LINE) and `SecondaryCta` ("ดูผลเทรดสด"). See `src/components/site/cta.tsx`. Don't add a third.
 - `--cta` red is used by the primary button only.
-- No return %, win rate or testimonials. The risk section must stay fully visible and longer than the returns section.
+- No return %, win rate or testimonials. The risk section must stay fully visible and longer than the money terms in the offer.
 - No top navigation menu. The right-hand chapter rail is in-page only.
+- Short page: Hook → Story → Offer → Risk → FAQ → Close. Say each fact once. Long-form detail (how the Grid works, x1–x10 levels, why there are two fee rates) goes in the FAQ, not in a new section. This is a deliberate departure from the brief's S8–S10 layout.
+
+## Video
+
+`public/media/rig-loop.mp4` (H.264, 720×1104, ~1.2 MB) is a seamless 9 s loop cut from the source clip: bottom cropped to remove the generator mark, last second cross-faded into the first, no audio. `src/assets/rig-poster.webp` is its first frame and paints before the video (LCP). If you replace the video, export a new poster from its first frame. `LoopVideo` downloads nothing for reduced-motion or Save-Data visitors and plays only while on screen.
 
 ## Structure
 
@@ -51,9 +55,9 @@ Search the code for `data-placeholder` or `TODO` to find every slot.
 src/
   app/                      layout (fonts, metadata), page (section order), globals.css (tokens)
   components/ui/            shadcn components + parallax-scrolling.tsx
-  components/motion/        SmoothScroll (single Lenis), MotionOrchestrator, Rain
+  components/motion/        SmoothScroll (single Lenis), MotionOrchestrator, LoopVideo
   components/site/          header, CTA buttons, chapter rail, mobile sticky CTA, analytics
-  components/sections/      one file per StoryBrand section (S1–S13)
+  components/sections/      hero, story, offer, risk, faq, final-cta, footer
   content/faq.tsx           FAQ content + plain text for structured data
   lib/site.ts               links and facts; single source of truth
 ```
@@ -62,7 +66,7 @@ Sections are Server Components. All scroll choreography lives in `MotionOrchestr
 
 ## Analytics
 
-GTM-compatible `window.dataLayer` events: `lp_view`, `reach_risk_section`, `cta_primary` / `cta_secondary` (with `location`), `simulator`, `footer_line`. Traffic source comes from `?utm_source=` or `?src=`, then falls back to the referrer.
+GTM-compatible `window.dataLayer` events: `lp_view`, `scroll_depth` (`percent` 25/50/75/100), `reach_risk_section`, `cta_primary` / `cta_secondary` (with `location`), `simulator`, `footer_line`. Traffic source comes from `?utm_source=` or `?src=`, then falls back to the referrer.
 
 ## Fonts
 

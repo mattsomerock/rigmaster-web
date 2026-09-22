@@ -6,15 +6,10 @@ import { cn } from "@/lib/utils"
 
 export const CHAPTERS = [
   { id: "top", label: "เริ่ม" },
-  { id: "proof", label: "หลักฐาน" },
-  { id: "stakes", label: "ปัญหา" },
-  { id: "value", label: "สิ่งที่คุณได้" },
-  { id: "guide", label: "ใครอยู่เบื้องหลัง" },
-  { id: "plan", label: "3 ขั้นตอน" },
+  { id: "story", label: "เรื่องจริง" },
+  { id: "offer", label: "ข้อเสนอ" },
   { id: "risk", label: "ความเสี่ยง" },
-  { id: "money", label: "เงินอยู่ไหน" },
-  { id: "level", label: "ระดับความเสี่ยง" },
-  { id: "faq", label: "คำถาม" },
+  { id: "faq", label: "รายละเอียด" },
 ] as const
 
 /** Desktop-only in-page position indicator (not a navigation menu — no exits). */

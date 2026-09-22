@@ -2,17 +2,20 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Em, SectionLabel, SplitHeading } from "@/components/site/typography"
 import { faq } from "@/content/faq"
 
-/* S11 — FAQ (8). Radix accordion: keyboard + screen-reader ready. */
+/* DETAIL. Everything a careful reader wants, folded away. Radix accordion: keyboard + screen-reader ready. */
 export function Faq() {
   return (
     <section id="faq" aria-labelledby="faq-title" className="border-t border-line">
       <div className="container-lux grid gap-12 py-(--sec) lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-4">
           <div className="lg:sticky lg:top-[calc(var(--header-h)+40px)]">
-            <SectionLabel index="08" className="mb-8">
-              คำถามที่พบบ่อย
+            <SectionLabel index="04" className="mb-8">
+              รายละเอียด
             </SectionLabel>
             <SplitHeading id="faq-title" lines={["ถามตรง", <Em key="e">ตอบตรง</Em>]} />
+            <p data-reveal className="mt-6 text-[0.975rem] leading-relaxed text-muted-foreground">
+              รายละเอียดทั้งหมดอยู่ตรงนี้ เปิดอ่านเฉพาะข้อที่สงสัย
+            </p>
           </div>
         </div>
 
