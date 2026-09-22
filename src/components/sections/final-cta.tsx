@@ -10,11 +10,10 @@ export function FinalCta() {
     <section
       id="final"
       aria-labelledby="final-title"
-      data-widen
       className="relative isolate flex min-h-[88svh] items-center overflow-hidden py-(--sec)"
     >
       <div aria-hidden className="absolute inset-0 -z-20 overflow-hidden">
-        <Image data-zoom-out src={rigPoster} alt="" fill sizes="100vw" className="object-cover object-[50%_28%] will-change-transform" />
+        <Image src={rigPoster} alt="" fill sizes="100vw" className="object-cover object-[50%_28%]" />
       </div>
       <div
         aria-hidden
@@ -30,11 +29,11 @@ export function FinalCta() {
           className="t-display text-[clamp(2.1rem,5.2vw,4.5rem)]"
           lines={["พร้อมเริ่ม หรือขอดูไปก่อน", <Em key="e">ทั้งสองทางโอเคหมด</Em>]}
         />
-        <p data-reveal className="mt-8 max-w-[32em] text-[clamp(1.05rem,1.6vw,1.25rem)] leading-[1.8] text-ink-2">
+        <p className="mt-8 max-w-[32em] text-[clamp(1.05rem,1.6vw,1.25rem)] leading-[1.8] text-ink-2">
           ยังไม่พร้อมก็แอดไลน์ไว้ดูเฉย ๆ ได้ เราส่งสรุปผลให้ทุกสัปดาห์ รวมสัปดาห์ที่แย่ด้วย
           <span className="mt-2 block text-gold-soft">เราไม่รีบ และคุณก็ไม่ควรรีบ</span>
         </p>
-        <div data-reveal id="final-cta" className="mt-10 w-full sm:w-auto">
+        <div id="final-cta" className="mt-10 w-full sm:w-auto">
           <PrimaryCta location="final" className="w-full sm:w-auto" />
         </div>
       </div>

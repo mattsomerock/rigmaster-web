@@ -3,6 +3,7 @@ import { Faq } from "@/components/sections/faq"
 import { FinalCta } from "@/components/sections/final-cta"
 import { Footer } from "@/components/sections/footer"
 import { Hero } from "@/components/sections/hero"
+import { LiveStrip } from "@/components/sections/live-strip"
 import { Offer } from "@/components/sections/offer"
 import { Risk } from "@/components/sections/risk"
 import { Story } from "@/components/sections/story"
@@ -15,7 +16,7 @@ import { site } from "@/lib/site"
 
 /*
  * StoryBrand landing page — one job: turn visitors into LINE OA friends.
- * Hook → Story → Offer → Risk → Detail (FAQ) → Close → Footer.
+ * Hook → Real data → Story → Offer → Risk → Detail (FAQ) → Close → Footer.
  * Say each thing once; anything a careful reader wants goes in the FAQ.
  */
 const jsonLd = [
@@ -50,6 +51,7 @@ export default function Home() {
 
       <main id="main">
         <Hero />
+        <LiveStrip />
         <Story />
         <Offer />
         <Risk />

@@ -9,11 +9,8 @@ import { site } from "@/lib/site"
  */
 export function DashboardFrame({ shot }: { shot?: StaticImageData }) {
   return (
-    <div className="[perspective:1600px]">
-      <figure
-        data-tilt-in
-        className="relative origin-[50%_0%] overflow-hidden rounded-[6px] border border-line-strong bg-linear-to-b from-surface-2 to-deep shadow-[0_80px_160px_-40px_rgb(0_0_0/0.85),0_0_0_1px_rgb(201_162_39/0.06),0_0_120px_-30px_rgb(201_162_39/0.22)] will-change-transform"
-      >
+    <div>
+      <figure className="relative overflow-hidden rounded-[6px] border border-line-strong bg-linear-to-b from-surface-2 to-deep shadow-[0_80px_160px_-40px_rgb(0_0_0/0.85),0_0_0_1px_rgb(201_162_39/0.06),0_0_120px_-30px_rgb(201_162_39/0.22)]">
         <div className="flex items-center gap-3 border-b border-line px-4 py-3 text-[0.6875rem] tracking-[0.14em] text-muted-foreground uppercase sm:px-5">
           <span aria-hidden className="flex gap-1.5">
             <i className="size-2 rounded-full bg-line-strong" />
@@ -48,7 +45,6 @@ export function DashboardFrame({ shot }: { shot?: StaticImageData }) {
                   fill="url(#dash-fill)"
                 />
                 <path
-                  data-draw
                   d="M0 190 C40 178 64 128 104 140 S168 214 206 200 S270 118 308 130 S372 246 412 232 S476 164 516 176 S580 96 620 108 S690 150 720 128"
                   fill="none"
                   stroke="#DCC16A"

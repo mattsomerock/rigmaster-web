@@ -13,7 +13,7 @@ export const site = {
   },
   links: {
     line: "https://line.me/R/ti/p/@rigmaster", // Direct CTA — "เริ่มต้น 3 ขั้นตอน"
-    live: "#", // TODO: MyFxbook / live dashboard — Transitional CTA "ดูผลเทรดสด"
+    live: "https://www.myfxbook.com/portfolio/rig-master/12200713", // Transitional CTA "ดูผลเทรดสด"
     simulator: "https://mattsomerock.github.io/rigmaster_risk_simulator/",
     riskDoc: "#", // TODO: full risk disclosure document
     privacy: "#", // TODO: privacy policy

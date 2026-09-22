@@ -169,16 +169,14 @@
   }
 }
 
-/* Lenis */
-html.lenis,
-html.lenis body {
-  height: auto;
+/* Native scrolling; in-page links clear the fixed header. */
+html {
+  scroll-padding-top: calc(var(--header-h) + 12px);
 }
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-.lenis.lenis-stopped {
-  overflow: clip;
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 /* ==========================================================================
@@ -271,12 +269,8 @@ body::after {
    Motion initial states — only applied when JS motion is available
    (class added by an inline script in <head>; removed if motion fails).
    ========================================================================== */
-.js-motion [data-split] .line > span {
+.js-motion [data-hero] [data-split] .line > span {
   transform: translateY(112%);
-}
-.js-motion [data-reveal] {
-  opacity: 0;
-  transform: translateY(28px);
 }
 .js-motion [data-hero-in] {
   opacity: 0;

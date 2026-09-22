@@ -1,3 +1,5 @@
+import { TriangleAlert } from "lucide-react"
+
 import { LoopVideo } from "@/components/motion/loop-video"
 import { ParallaxComponent, type ParallaxLayer } from "@/components/ui/parallax-scrolling"
 import { CtaPair } from "@/components/site/cta"
@@ -64,11 +66,17 @@ const layers: ParallaxLayer[] = [
           <div data-hero-in id="hero-cta" className="pointer-events-auto mt-8">
             <CtaPair location="hero" />
           </div>
-          <p data-hero-in className="mt-5 text-[0.8125rem] text-ink-2/85">
-            มีความเสี่ยง{" "}
-            <a href="#risk" className="pointer-events-auto underline decoration-line-strong underline-offset-4 hover:text-ink">
-              อ่านก่อนตัดสินใจ
-            </a>
+          <p data-hero-in className="mt-6 flex items-start gap-3 border-l-2 border-gold-soft/70 py-0.5 pl-3.5 text-[0.9375rem] leading-relaxed text-ink">
+            <TriangleAlert aria-hidden strokeWidth={1.6} className="mt-[0.2em] size-4 shrink-0 text-gold-soft" />
+            <span>
+              ระบบนี้ไม่มี Stop Loss <span className="whitespace-nowrap">พอร์ตถูกล้างได้จริง</span>{" "}
+              <a
+                href="#risk"
+                className="pointer-events-auto whitespace-nowrap text-gold-soft underline decoration-gold-soft/50 underline-offset-4 hover:decoration-gold-soft"
+              >
+                อ่านความเสี่ยงก่อน →
+              </a>
+            </span>
           </p>
         </div>
       </div>
@@ -84,6 +92,8 @@ export function Hero() {
       aria-labelledby="hero-title"
       className="h-[max(100svh,640px)] lg:h-[max(100svh,720px)]"
       layers={layers}
+      // The film layer fades itself into the page; a fade on top would dim the copy.
+      fade={false}
       overlay={
         <>
           <div data-hero-veil aria-hidden className="absolute inset-0 bg-background opacity-0" />

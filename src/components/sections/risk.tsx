@@ -42,10 +42,11 @@ const risks = [
 
 export function Risk() {
   return (
-    <section id="risk" aria-labelledby="risk-title" data-widen className="relative overflow-hidden bg-deep">
-      <div aria-hidden className="absolute inset-x-0 top-0 z-10 h-[6px] overflow-hidden opacity-45">
-        <div data-hazard className="h-full w-[200%] bg-[repeating-linear-gradient(-45deg,var(--gold)_0_8px,transparent_8px_20px)]" />
-      </div>
+    <section id="risk" aria-labelledby="risk-title" className="relative overflow-hidden bg-deep">
+      <div
+        aria-hidden
+        className="absolute inset-x-0 top-0 z-10 h-[6px] bg-[repeating-linear-gradient(-45deg,var(--gold)_0_8px,transparent_8px_20px)] opacity-45"
+      />
 
       {/* Chapter break: the same rig, now in the storm. */}
       <div className="relative isolate flex min-h-[72svh] items-end lg:min-h-[74vh] lg:items-center">
@@ -84,10 +85,10 @@ export function Risk() {
               key={r.title}
               className="grid grid-cols-[3.4rem_1fr] gap-x-5 border-b border-line py-9 lg:flex lg:flex-col lg:gap-5 lg:border-r lg:border-b-0 lg:px-8 lg:py-12 lg:first:pl-0 lg:last:border-r-0 lg:last:pr-0"
             >
-              <span data-slide-in aria-hidden className="t-num t-outline text-[3.4rem] leading-[0.85] lg:text-[5rem]">
+              <span aria-hidden className="t-num t-outline text-[3.4rem] leading-[0.85] lg:text-[5rem]">
                 0{i + 1}
               </span>
-              <div data-reveal>
+              <div>
                 <h3 className="mb-3 text-[clamp(1.3rem,2.2vw,1.65rem)] leading-[1.4] font-light text-ink">{r.title}</h3>
                 <p className="text-[1rem] leading-[1.85] text-ink-2">{r.text}</p>
               </div>
@@ -96,7 +97,6 @@ export function Risk() {
         </ol>
 
         <div
-          data-reveal
           className="relative mt-12 overflow-hidden rounded-[6px] border border-gold/30 bg-warn p-7 sm:p-10 lg:mt-16 lg:grid lg:grid-cols-12 lg:gap-10 lg:p-14"
         >
           <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(80%_70%_at_0%_0%,rgb(201_162_39/0.13),transparent_60%)]" />

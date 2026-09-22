@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next"
 import { Instrument_Serif, Noto_Sans_Thai } from "next/font/google"
 
-import { SmoothScroll } from "@/components/motion/smooth-scroll"
 import { site } from "@/lib/site"
 import "./globals.css"
 
@@ -62,9 +61,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <head>
         <script dangerouslySetInnerHTML={{ __html: motionGate }} />
       </head>
-      <body>
-        <SmoothScroll>{children}</SmoothScroll>
-      </body>
+      <body>{children}</body>
     </html>
   )
 }

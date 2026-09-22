@@ -3,40 +3,27 @@
 import * as React from "react"
 
 import { PrimaryCta } from "@/components/site/cta"
+import { useHeroCtaGone } from "@/components/site/use-hero-cta-gone"
 import { cn } from "@/lib/utils"
 
 /**
- * Mobile: the primary CTA stays pinned to the bottom edge once the hero CTA
- * has scrolled away. It steps aside while the closing CTA is on screen.
+ * Phones/tablets: the primary CTA stays pinned to the bottom edge for the whole
+ * page once the hero's own button is out of sight (brief: always one tap away).
+ * It steps aside only while the closing CTA is on screen, so the same button never shows twice.
  */
 export function MobileCta() {
-  const [show, setShow] = React.useState(false)
+  const heroGone = useHeroCtaGone()
+  const [finalVisible, setFinalVisible] = React.useState(false)
 
   React.useEffect(() => {
-    const hero = document.getElementById("hero-cta")
     const final = document.getElementById("final-cta")
-    if (!hero || !final) return
-    let heroVisible = true
-    let finalVisible = false
-    const sync = () => setShow(!heroVisible && !finalVisible)
-    const heroIO = new IntersectionObserver(([e]) => {
-      heroVisible = e.isIntersecting || e.boundingClientRect.top > 0
-      sync()
-    })
-    const finalIO = new IntersectionObserver(
-      ([e]) => {
-        finalVisible = e.isIntersecting
-        sync()
-      },
-      { rootMargin: "0px 0px -8% 0px" }
-    )
-    heroIO.observe(hero)
-    finalIO.observe(final)
-    return () => {
-      heroIO.disconnect()
-      finalIO.disconnect()
-    }
+    if (!final) return
+    const io = new IntersectionObserver(([e]) => setFinalVisible(e.isIntersecting), { rootMargin: "0px 0px -8% 0px" })
+    io.observe(final)
+    return () => io.disconnect()
   }, [])
+
+  const show = heroGone && !finalVisible
 
   return (
     <div
@@ -49,7 +36,7 @@ export function MobileCta() {
         show && "translate-y-0"
       )}
     >
-      <PrimaryCta location="sticky_mobile" magnetic={false} className="w-full" />
+      <PrimaryCta location="sticky_mobile" className="w-full" />
     </div>
   )
 }

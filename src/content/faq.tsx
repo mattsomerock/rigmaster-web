@@ -110,7 +110,7 @@ export const faq: FaqItem[] = [
         <Placeholder note="เจ้าของต้องเขียนคำตอบเองด้วยข้อมูลจริง">[ ตอบตรง ๆ ด้วยข้อมูลจริง ห้ามตอบว่าไม่เคย ]</Placeholder>
         <p className="mt-4">
           ดูตัวเลขจริงทุกไม้ได้ที่{" "}
-          <a href={site.links.live} data-track="cta_secondary" data-loc="faq" className={link}>
+          <a href={site.links.live} target="_blank" rel="noopener" data-track="cta_secondary" data-loc="faq" className={link}>
             ผลเทรดสด
           </a>
         </p>

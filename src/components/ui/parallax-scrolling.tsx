@@ -8,8 +8,8 @@
  *  - GSAP work is scoped with `useGSAP`, so unmount only reverts THIS
  *    component's tweens/ScrollTriggers (the original killed every trigger
  *    on the page).
- *  - Smooth scrolling (Lenis) is NOT created here. It lives once, app-wide,
- *    in <SmoothScroll>, so several parallax sections can coexist.
+ *  - No smooth-scroll library (the original created a Lenis instance). The
+ *    page uses native scrolling, which ScrollTrigger follows directly.
  *  - Honors `prefers-reduced-motion`: layers stay put.
  */
 

@@ -18,20 +18,13 @@ type CtaProps = {
   location: string
   className?: string
   size?: "xl" | "md"
-  magnetic?: boolean
   tabIndex?: number
 }
 
-export function PrimaryCta({ location, className, size = "xl", magnetic = true, tabIndex }: CtaProps) {
+export function PrimaryCta({ location, className, size = "xl", tabIndex }: CtaProps) {
   return (
     <Button asChild variant="cta" size={size} className={className}>
-      <a
-        href={site.links.line}
-        data-track="cta_primary"
-        data-loc={location}
-        data-magnetic={magnetic ? "" : undefined}
-        tabIndex={tabIndex}
-      >
+      <a href={site.links.line} data-track="cta_primary" data-loc={location} tabIndex={tabIndex}>
         <span aria-hidden className="relative size-2 shrink-0 rounded-full bg-white">
           <span className="absolute -inset-1.5 animate-[rm-ping_2.2s_cubic-bezier(.16,1,.3,1)_infinite] rounded-full border border-white/70" />
         </span>
@@ -42,7 +35,7 @@ export function PrimaryCta({ location, className, size = "xl", magnetic = true, 
   )
 }
 
-export function SecondaryCta({ location, className, size = "xl", magnetic = true }: CtaProps) {
+export function SecondaryCta({ location, className, size = "xl", tabIndex }: CtaProps) {
   const href = site.links.live
   const external = isExternal(href)
   return (
@@ -51,7 +44,7 @@ export function SecondaryCta({ location, className, size = "xl", magnetic = true
         href={href}
         data-track="cta_secondary"
         data-loc={location}
-        data-magnetic={magnetic ? "" : undefined}
+        tabIndex={tabIndex}
         {...(external ? { target: "_blank", rel: "noopener" } : {})}
       >
         <ChartNoAxesColumn strokeWidth={1.5} />

@@ -45,7 +45,7 @@ export function Offer() {
             </SectionLabel>
             <SplitHeading id="offer-title" lines={["เราไม่ขายสัญญาณ", <Em key="e">เราเปิดพอร์ตจริงให้คุณก็อปปี้</Em>]} />
           </div>
-          <div data-reveal className="lg:col-span-4 lg:flex lg:justify-end">
+          <div className="lg:col-span-4 lg:flex lg:justify-end">
             <SecondaryCta location="offer" size="md" className="w-full sm:w-auto" />
           </div>
         </div>
@@ -56,7 +56,6 @@ export function Offer() {
           {promises.map(({ icon: Icon, title, text, rates }) => (
             <li
               key={title}
-              data-reveal
               className="flex flex-col gap-3 border-b border-line py-8 md:border-r md:border-b-0 md:px-8 md:first:pl-0 md:last:border-r-0 md:last:pr-0"
             >
               <Icon aria-hidden strokeWidth={1.1} className="size-7 text-gold" />
@@ -73,7 +72,7 @@ export function Offer() {
         </ul>
 
         <div className="mt-20 lg:mt-28">
-          <h3 data-reveal className="mb-10 text-[clamp(1.45rem,2.6vw,2.1rem)] leading-[1.35] font-light text-ink lg:mb-14 lg:text-center">
+          <h3 className="mb-10 text-[clamp(1.45rem,2.6vw,2.1rem)] leading-[1.35] font-light text-ink lg:mb-14 lg:text-center">
             เริ่มได้ใน <Em>3 ขั้น</Em> <span className="text-muted-foreground">· ประมาณ 15 นาที</span>
           </h3>
 
@@ -93,7 +92,7 @@ export function Offer() {
                   >
                     <span className="size-[7px] rounded-full bg-line-strong transition-colors duration-700 group-data-on/step:bg-gold" />
                   </span>
-                  <div data-reveal>
+                  <div>
                     <p className="flex items-baseline gap-3 lg:justify-center">
                       <span className="t-num text-[2.1rem] leading-none text-gold-soft">{i + 1}</span>
                       <span className="text-[1.3rem] font-normal text-ink">{title}</span>
@@ -105,7 +104,7 @@ export function Offer() {
             </ol>
           </div>
 
-          <div data-reveal className="mt-14 flex flex-col items-start gap-6 lg:mt-16 lg:items-center lg:text-center">
+          <div className="mt-14 flex flex-col items-start gap-6 lg:mt-16 lg:items-center lg:text-center">
             <p className="text-ink-2">
               ทุกขั้นมีคลิปสอนทีละคลิก <span className="whitespace-nowrap">ไม่ต้องนัดคุย</span>{" "}
               <span className="whitespace-nowrap">ไม่ต้องรอใครตอบ</span>

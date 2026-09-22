@@ -11,6 +11,9 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # Rebuild every 3 hours so the live-data strip picks up fresh Myfxbook numbers.
+  schedule:
+    - cron: "17 */3 * * *"
 
 permissions:
   contents: read
@@ -52,6 +55,13 @@ jobs:
 
       - name: Lint
         run: npm run lint
+
+      # Uses the official Myfxbook API. Without the two secrets it keeps the committed snapshot.
+      - name: Refresh live stats
+        run: node scripts/fetch-stats.mjs
+        env:
+          MYFXBOOK_EMAIL: ${{ secrets.MYFXBOOK_EMAIL }}
+          MYFXBOOK_PASSWORD: ${{ secrets.MYFXBOOK_PASSWORD }}
 
       - name: Build (static export → out/)
         run: npm run build

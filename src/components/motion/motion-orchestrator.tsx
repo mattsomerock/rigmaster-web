@@ -13,20 +13,14 @@ declare global {
 }
 
 /**
- * Attaches all scroll choreography to server-rendered markup via data-attributes,
- * so sections stay Server Components and ship no JS of their own.
+ * The page has exactly three motion moments; everything else is static so
+ * those three read clearly (and the page stays light in LINE's in-app browser):
  *
- *   data-split            heading whose `.line > span` children rise into view
- *   data-reveal           fades/lifts in (batched)
- *   data-scrub + data-w   words brighten as you scroll
- *   data-tilt-in          3D panel that flattens as it enters
- *   data-draw             SVG stroke draws once
- *   data-clip-in          image unmasks with scroll
- *   data-widen            section grows from inset to full-bleed
- *   data-plan …           progress rail + steps
- *   data-hazard           stripe drift
- *   data-zoom-out         background scales down as its frame arrives
- *   data-magnetic         pointer-follow (fine pointers only)
+ *   1. Hero opening     [data-hero] veil, headline lines, [data-hero-in] copy, [data-hero-meta]
+ *   2. Into the storm   [data-zoom-out] camera pull-back on the risk film
+ *   3. The three steps  [data-plan] progress rail + [data-step] lights
+ *
+ * The hero parallax itself lives in <ParallaxComponent>.
  */
 export function MotionOrchestrator() {
   useGSAP(() => {
@@ -38,10 +32,9 @@ export function MotionOrchestrator() {
       {
         motion: "(prefers-reduced-motion: no-preference)",
         desktop: "(min-width: 1024px)",
-        fine: "(hover: hover) and (pointer: fine)",
       },
       (ctx) => {
-        const { motion, desktop, fine } = ctx.conditions as Record<string, boolean>
+        const { motion, desktop } = ctx.conditions as Record<string, boolean>
         if (!motion) {
           html.classList.remove("js-motion")
           return
@@ -50,7 +43,7 @@ export function MotionOrchestrator() {
         const cleanups: Array<() => void> = []
         const q = <T extends Element = HTMLElement>(sel: string) => gsap.utils.toArray<T>(sel)
 
-        /* ---------- Hero intro ---------- */
+        /* ---------- 1. Hero opening ---------- */
         gsap
           .timeline({ defaults: { ease: "expo.out" } })
           .to("[data-hero-veil]", { opacity: 0, duration: 1.8, ease: "power2.out" }, 0)
@@ -67,94 +60,20 @@ export function MotionOrchestrator() {
           scrollTrigger: { trigger: "[data-hero]", start: "top top", end: "12% top", scrub: true },
         })
 
-        /* ---------- Headings ---------- */
-        q("[data-split]").forEach((h) => {
-          if (h.closest("[data-hero]")) return
-          gsap.to(h.querySelectorAll(".line > span"), {
-            y: 0,
-            duration: 1.35,
-            stagger: 0.1,
-            ease: "expo.out",
-            scrollTrigger: { trigger: h, start: "top 88%", once: true },
-          })
-        })
-
-        /* ---------- Generic reveals ---------- */
-        ScrollTrigger.batch("[data-reveal]", {
-          start: "top 90%",
-          once: true,
-          onEnter: (els) =>
-            gsap.to(els, { opacity: 1, y: 0, duration: 1.15, ease: "expo.out", stagger: 0.08, overwrite: true }),
-        })
-
-        /* ---------- Scrubbed words ---------- */
-        q("[data-scrub]").forEach((block) => {
-          gsap.fromTo(
-            block.querySelectorAll("[data-w]"),
-            { opacity: 0.14 },
-            {
-              opacity: 1,
-              stagger: 0.4,
-              ease: "none",
-              scrollTrigger: { trigger: block, start: "top 82%", end: "bottom 52%", scrub: 0.6 },
-            }
-          )
-        })
-
-        /* ---------- 3D panel ---------- */
-        q("[data-tilt-in]").forEach((el) => {
+        /* ---------- 2. Into the storm ---------- */
+        q("[data-zoom-out]").forEach((el) => {
           gsap.fromTo(
             el,
-            { rotateX: desktop ? 24 : 12, scale: 0.9, yPercent: 4 },
+            { scale: 1.28 },
             {
-              rotateX: 0,
               scale: 1,
-              yPercent: 0,
               ease: "none",
-              scrollTrigger: { trigger: el, start: "top 96%", end: "top 28%", scrub: 0.6 },
-            }
-          )
-        })
-        q<SVGPathElement>("[data-draw]").forEach((path) => {
-          const len = path.getTotalLength()
-          gsap.fromTo(
-            path,
-            { strokeDasharray: len, strokeDashoffset: len },
-            {
-              strokeDashoffset: 0,
-              duration: 2.6,
-              ease: "power2.inOut",
-              scrollTrigger: { trigger: path, start: "top 85%", once: true },
+              scrollTrigger: { trigger: el.parentElement ?? el, start: "top bottom", end: "center center", scrub: true },
             }
           )
         })
 
-        /* ---------- Clip reveals ---------- */
-        q("[data-clip-in]").forEach((el) => {
-          gsap.fromTo(
-            el,
-            { clipPath: "inset(14% 14% 14% 14%)" },
-            {
-              clipPath: "inset(0% 0% 0% 0%)",
-              ease: "none",
-              scrollTrigger: { trigger: el, start: "top 92%", end: "top 38%", scrub: 0.5 },
-            }
-          )
-        })
-        q("[data-widen]").forEach((el) => {
-          const x = desktop ? 3 : 2.5
-          gsap.fromTo(
-            el,
-            { clipPath: `inset(0% ${x}% 0% ${x}% round 14px)` },
-            {
-              clipPath: "inset(0% 0% 0% 0% round 0px)",
-              ease: "none",
-              scrollTrigger: { trigger: el, start: "top bottom", end: "top 18%", scrub: true },
-            }
-          )
-        })
-
-        /* ---------- Plan rail ---------- */
+        /* ---------- 3. The three steps ---------- */
         q("[data-plan]").forEach((plan) => {
           const bar = plan.querySelector("[data-plan-progress]")
           if (bar) {
@@ -179,65 +98,6 @@ export function MotionOrchestrator() {
             cleanups.push(() => step.setAttribute("data-on", ""))
           })
         })
-
-        /* ---------- Risk section ---------- */
-        q("[data-hazard]").forEach((el) => {
-          gsap.to(el, {
-            xPercent: -25,
-            ease: "none",
-            scrollTrigger: { trigger: el, start: "top bottom", end: "+=2400", scrub: true },
-          })
-        })
-        q("[data-slide-in]").forEach((el) => {
-          gsap.from(el, {
-            opacity: 0,
-            x: -36,
-            duration: 1.4,
-            ease: "expo.out",
-            scrollTrigger: { trigger: el, start: "top 86%", once: true },
-          })
-        })
-
-        /* ---------- Camera pull-back on full-bleed media ---------- */
-        q("[data-zoom-out]").forEach((el) => {
-          gsap.fromTo(
-            el,
-            { scale: 1.28 },
-            {
-              scale: 1,
-              ease: "none",
-              scrollTrigger: {
-                trigger: el.parentElement ?? el,
-                start: "top bottom",
-                end: "center center",
-                scrub: true,
-              },
-            }
-          )
-        })
-
-        /* ---------- Magnetic CTAs ---------- */
-        if (fine && desktop) {
-          q("[data-magnetic]").forEach((btn) => {
-            const xTo = gsap.quickTo(btn, "x", { duration: 0.6, ease: "power3" })
-            const yTo = gsap.quickTo(btn, "y", { duration: 0.6, ease: "power3" })
-            const move = (e: PointerEvent) => {
-              const r = btn.getBoundingClientRect()
-              xTo((e.clientX - r.left - r.width / 2) * 0.2)
-              yTo((e.clientY - r.top - r.height / 2) * 0.32)
-            }
-            const leave = () => {
-              xTo(0)
-              yTo(0)
-            }
-            btn.addEventListener("pointermove", move)
-            btn.addEventListener("pointerleave", leave)
-            cleanups.push(() => {
-              btn.removeEventListener("pointermove", move)
-              btn.removeEventListener("pointerleave", leave)
-            })
-          })
-        }
 
         const refresh = () => ScrollTrigger.refresh()
         document.fonts?.ready.then(refresh)
