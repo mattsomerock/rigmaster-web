@@ -14,7 +14,7 @@ type NavigatorWithConnection = Navigator & { connection?: { saveData?: boolean }
  *    fades in only once frames are actually playing, so there is never a flash.
  *  - `preload="none"`: nothing is fetched until play() — reduced-motion and
  *    Save-Data visitors keep the still and download nothing.
- *  - Plays only while near the viewport (battery / CPU on phones).
+ *  - Plays only while near the viewport and the tab is visible (battery / CPU on phones).
  */
 export function LoopVideo({
   src,
@@ -47,15 +47,26 @@ export function LoopVideo({
     video.muted = true
     video.defaultMuted = true
 
+    // Play only while near the viewport AND the tab is visible. Retry on return,
+    // since a play() attempted in a background tab (or before an app switch) stays paused.
+    let inView = false
+    const sync = () => {
+      if (inView && !document.hidden) video.play().catch(() => {})
+      else video.pause()
+    }
     const io = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) video.play().catch(() => {})
-        else video.pause()
+        inView = entry.isIntersecting
+        sync()
       },
       { rootMargin: "200px 0px" }
     )
     io.observe(video)
-    return () => io.disconnect()
+    document.addEventListener("visibilitychange", sync)
+    return () => {
+      io.disconnect()
+      document.removeEventListener("visibilitychange", sync)
+    }
   }, [])
 
   return (
