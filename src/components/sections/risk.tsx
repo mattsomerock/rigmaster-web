@@ -103,13 +103,16 @@ export function Risk() {
           <ul className="relative space-y-4 lg:col-span-7">
             {[
               <>
-                อย่าเอาเงินที่คุณเดือดร้อน<span className="whitespace-nowrap">ถ้าเสียมาลง</span>
+                อย่าเอาเงินที่คุณ<span className="whitespace-nowrap">เดือดร้อนถ้าเสียมาลง</span>
               </>,
               "อย่าเอาเงินที่ต้องใช้ใน 6 เดือนมาลง",
               "อย่ากู้มาลงเด็ดขาด",
             ].map((t, i) => (
               <li key={i} className="flex items-start gap-4 text-[clamp(1.15rem,2.1vw,1.5rem)] leading-[1.5] font-light text-ink">
-                <X aria-hidden strokeWidth={1.25} className="mt-[0.3em] size-5 shrink-0 text-gold-soft" />
+                {/* Box one line tall, so the icon centres on the first line at any font size */}
+                <span aria-hidden className="flex h-[1.5em] shrink-0 items-center">
+                  <X strokeWidth={1.25} className="size-5 text-gold-soft" />
+                </span>
                 <span>{t}</span>
               </li>
             ))}

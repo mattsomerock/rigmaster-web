@@ -67,7 +67,9 @@ const layers: ParallaxLayer[] = [
             <CtaPair location="hero" />
           </div>
           <p data-hero-in className="mt-6 flex items-start gap-3 border-l-2 border-gold-soft/70 py-0.5 pl-3.5 text-[0.9375rem] leading-relaxed text-ink">
-            <TriangleAlert aria-hidden strokeWidth={1.6} className="mt-[0.2em] size-4 shrink-0 text-gold-soft" />
+            <span aria-hidden className="flex h-[1.625em] shrink-0 items-center">
+              <TriangleAlert strokeWidth={1.6} className="size-4 text-gold-soft" />
+            </span>
             <span>
               ระบบนี้ไม่มี Stop Loss <span className="whitespace-nowrap">พอร์ตถูกล้างได้จริง</span>{" "}
               <a

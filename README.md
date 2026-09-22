@@ -44,7 +44,7 @@ Search the code for `data-placeholder` or `TODO` to find every slot.
 - No return %, win rate or testimonials. The risk section must stay fully visible and longer than the money terms in the offer.
 - No top navigation menu. The right-hand chapter rail is in-page only.
 - The primary CTA is always one tap/click away: the sticky bottom bar on phones and tablets, the header on desktop. Each appears once the hero's own button is out of sight. `useHeroCtaGone` checks geometry instead of IntersectionObserver because the parallax clips the hero button.
-- Motion has exactly three moments: the hero opening (plus its parallax), the camera pull-back into the storm, and the 3-step progress rail. Everything else is static, with no smooth-scroll library.
+- Motion has exactly three moments: the hero opening (plus its parallax), the camera pull-back into the storm, and the 3-step progress rail. Everything else is static, with no smooth-scroll library. The only other effect is `CursorLight`, a soft gold pool of light that trails the mouse on desktop. It is off for touch, coarse pointers and reduced motion.
 - Short page: Hook → Real data → Story → Offer → Risk → FAQ → Close. Say each fact once. Long-form detail (how the Grid works, x1–x10 levels, why there are two fee rates) goes in the FAQ, not in a new section. This is a deliberate departure from the brief's S8–S10 layout.
 
 ## Video
@@ -71,7 +71,7 @@ The strip under the hero (`LiveStrip`) shows risk-side numbers only: days live, 
 src/
   app/                      layout (fonts, metadata), page (section order), globals.css (tokens)
   components/ui/            shadcn components + parallax-scrolling.tsx
-  components/motion/        MotionOrchestrator (the three moments), LoopVideo
+  components/motion/        MotionOrchestrator (the three moments), LoopVideo, CursorLight
   components/site/          header, CTA buttons, chapter rail, mobile sticky CTA, analytics, DaysLive
   components/sections/      hero, live-strip, story, offer, risk, faq, final-cta, footer
   content/live-stats.json   Myfxbook snapshot shown in the live strip

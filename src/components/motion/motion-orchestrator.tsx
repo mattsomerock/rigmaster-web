@@ -18,7 +18,7 @@ declare global {
  *
  *   1. Hero opening     [data-hero] veil, headline lines, [data-hero-in] copy, [data-hero-meta]
  *   2. Into the storm   [data-zoom-out] camera pull-back on the risk film
- *   3. The three steps  [data-plan] progress rail + [data-step] lights
+ *   3. The three steps  [data-plan] rail ([data-plan-progress] desktop, [data-plan-seg] phone) + [data-step] lights
  *
  * The hero parallax itself lives in <ParallaxComponent>.
  */
@@ -75,17 +75,24 @@ export function MotionOrchestrator() {
 
         /* ---------- 3. The three steps ---------- */
         q("[data-plan]").forEach((plan) => {
+          // Desktop: one horizontal rail. Phone: one segment per gap, each filling
+          // as its section passes the same line where the steps light up.
           const bar = plan.querySelector("[data-plan-progress]")
-          if (bar) {
+          if (desktop && bar) {
             gsap.fromTo(
               bar,
-              desktop ? { scaleX: 0, scaleY: 1 } : { scaleY: 0, scaleX: 1 },
-              {
-                ...(desktop ? { scaleX: 1 } : { scaleY: 1 }),
-                ease: "none",
-                scrollTrigger: { trigger: plan, start: "top 72%", end: "bottom 62%", scrub: 0.5 },
-              }
+              { scaleX: 0 },
+              { scaleX: 1, ease: "none", scrollTrigger: { trigger: plan, start: "top 72%", end: "bottom 62%", scrub: 0.5 } }
             )
+          }
+          if (!desktop) {
+            plan.querySelectorAll("[data-plan-seg]").forEach((seg) => {
+              gsap.fromTo(
+                seg,
+                { scaleY: 0 },
+                { scaleY: 1, ease: "none", scrollTrigger: { trigger: seg, start: "top 70%", end: "bottom 70%", scrub: 0.5 } }
+              )
+            })
           }
           plan.querySelectorAll("[data-step]").forEach((step) => {
             step.removeAttribute("data-on")

@@ -77,15 +77,25 @@ export function Offer() {
           </h3>
 
           <div data-plan className="relative pl-12 lg:pt-12 lg:pl-0">
-            <span aria-hidden className="absolute top-2 bottom-2 left-[11px] w-px bg-line-strong lg:top-[11px] lg:right-[16.66%] lg:bottom-auto lg:left-[16.66%] lg:h-px lg:w-auto" />
+            {/* Desktop: one horizontal rail between the first and last dot centres. */}
+            <span aria-hidden className="absolute top-[11px] right-[16.66%] left-[16.66%] hidden h-px bg-line-strong lg:block" />
             <span
               data-plan-progress
               aria-hidden
-              className="absolute top-2 bottom-2 left-[11px] w-px origin-top bg-linear-to-b from-gold to-gold-soft shadow-[0_0_14px_var(--gold)] lg:top-[11px] lg:right-[16.66%] lg:bottom-auto lg:left-[16.66%] lg:h-px lg:w-auto lg:origin-left lg:bg-linear-to-r"
+              className="absolute top-[11px] right-[16.66%] left-[16.66%] hidden h-px origin-left bg-linear-to-r from-gold to-gold-soft shadow-[0_0_14px_var(--gold)] lg:block"
             />
             <ol className="grid gap-8 lg:grid-cols-3 lg:gap-8">
               {steps.map(({ title, text }, i) => (
                 <li key={title} data-step data-on="" className="group/step relative lg:px-6 lg:text-center">
+                  {/* Phone: a segment from this dot to the next one — none after the last, so the rail ends on dot 3. */}
+                  {i < steps.length - 1 && (
+                    <span aria-hidden className="absolute top-[27px] -bottom-9 -left-[37px] w-px bg-line-strong lg:hidden">
+                      <span
+                        data-plan-seg
+                        className="absolute inset-0 origin-top bg-linear-to-b from-gold to-gold-soft shadow-[0_0_14px_var(--gold)]"
+                      />
+                    </span>
+                  )}
                   <span
                     aria-hidden
                     className="absolute top-1 -left-12 grid size-[23px] place-items-center rounded-full border border-line-strong bg-deep transition-all duration-700 ease-out-expo group-data-on/step:border-gold group-data-on/step:shadow-[0_0_0_6px_rgb(201_162_39/0.1),0_0_24px_rgb(201_162_39/0.45)] lg:-top-12 lg:left-1/2 lg:-translate-x-1/2"
@@ -104,7 +114,7 @@ export function Offer() {
             </ol>
           </div>
 
-          <div className="mt-14 flex flex-col items-start gap-6 lg:mt-16 lg:items-center lg:text-center">
+          <div id="offer-cta" className="mt-14 flex flex-col items-start gap-6 lg:mt-16 lg:items-center lg:text-center">
             <p className="text-ink-2">
               ทุกขั้นมีคลิปสอนทีละคลิก <span className="whitespace-nowrap">ไม่ต้องนัดคุย</span>{" "}
               <span className="whitespace-nowrap">ไม่ต้องรอใครตอบ</span>

@@ -9,21 +9,35 @@ import { cn } from "@/lib/utils"
 /**
  * Phones/tablets: the primary CTA stays pinned to the bottom edge for the whole
  * page once the hero's own button is out of sight (brief: always one tap away).
- * It steps aside only while the closing CTA is on screen, so the same button never shows twice.
+ * It steps aside while an in-page primary CTA (offer, close) is on screen, so the same button never shows twice.
  */
+const IN_PAGE_CTAS = ["offer-cta", "final-cta"]
+
 export function MobileCta() {
   const heroGone = useHeroCtaGone()
-  const [finalVisible, setFinalVisible] = React.useState(false)
+  const [inPageVisible, setInPageVisible] = React.useState(false)
 
   React.useEffect(() => {
-    const final = document.getElementById("final-cta")
-    if (!final) return
-    const io = new IntersectionObserver(([e]) => setFinalVisible(e.isIntersecting), { rootMargin: "0px 0px -8% 0px" })
-    io.observe(final)
+    const visible = new Set<Element>()
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) visible.add(e.target)
+          else visible.delete(e.target)
+        }
+        setInPageVisible(visible.size > 0)
+      },
+      // Ignore the strip the bar itself covers, so a button hidden under it still counts as off-screen.
+      { rootMargin: "0px 0px -12% 0px" }
+    )
+    for (const id of IN_PAGE_CTAS) {
+      const el = document.getElementById(id)?.querySelector('[data-track="cta_primary"]')
+      if (el) io.observe(el)
+    }
     return () => io.disconnect()
   }, [])
 
-  const show = heroGone && !finalVisible
+  const show = heroGone && !inPageVisible
 
   return (
     <div

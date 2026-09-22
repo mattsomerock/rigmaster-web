@@ -1,3 +1,4 @@
+import { CursorLight } from "@/components/motion/cursor-light"
 import { MotionOrchestrator } from "@/components/motion/motion-orchestrator"
 import { Faq } from "@/components/sections/faq"
 import { FinalCta } from "@/components/sections/final-cta"
@@ -61,6 +62,7 @@ export default function Home() {
       <Footer />
 
       <MobileCta />
+      <CursorLight />
       <Analytics />
       <MotionOrchestrator />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
