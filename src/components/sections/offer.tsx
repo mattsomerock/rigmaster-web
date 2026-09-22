@@ -1,8 +1,19 @@
 import { Eye, Landmark, Percent } from "lucide-react"
 
-import { DashboardFrame } from "@/components/sections/dashboard-frame"
+import { DashboardFrame, type PortfolioShot } from "@/components/sections/dashboard-frame"
 import { PrimaryCta, SecondaryCta } from "@/components/site/cta"
 import { Em, SectionLabel, SplitHeading } from "@/components/site/typography"
+import portfolioShot from "@/assets/portfolio-shot.webp"
+
+/* Real MT5 screenshot from the VPS, recoloured to the site palette. The EA's
+   settings panel and name, account number, tickets and lot sizes are cropped out;
+   no figure is altered. Replace the file and update the date when re-shooting. */
+const shot: PortfolioShot = {
+  image: portfolioShot,
+  alt: "หน้าจอ MT5 จริงของพอร์ตหลัก 22 ก.ย. 2026: กราฟ USOUSD รายชั่วโมง และไม้ Buy ที่เปิดอยู่ 4 ไม้ ไม่มี Stop Loss ติดลบลอยรวม 472.20 USC",
+  // U+2060 (word joiner) keeps "ซ่อนเลขบัญชีและค่าตั้งระบบ" on one line; it breaks at the " · " instead.
+  note: "ภาพจริงจาก MT5 บน VPS · 22 ก.ย. 2026 · ซ่อน⁠เลข⁠บัญชี⁠และ⁠ค่า⁠ตั้ง⁠ระบบ",
+}
 
 /*
  * OFFER. What you get (proof + three promises) and how to start (three steps).
@@ -50,7 +61,7 @@ export function Offer() {
           </div>
         </div>
 
-        <DashboardFrame />
+        <DashboardFrame shot={shot} />
 
         <ul className="mt-14 grid border-t border-line md:grid-cols-3 lg:mt-20">
           {promises.map(({ icon: Icon, title, text, rates }) => (

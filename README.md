@@ -30,7 +30,6 @@ Other static hosts: `npm run build` and upload `out/`. For a sub-path, set `NEXT
 | Confirm LINE OA ID and link | `src/lib/site.ts` → `lineId`, `links.line` |
 | Risk disclosure + privacy policy links | `src/lib/site.ts` → `links.riskDoc`, `links.privacy` |
 | Real domain (OG tags, schema) | `NEXT_PUBLIC_SITE_URL` env or `src/lib/site.ts` → `url` |
-| Real dashboard screenshot | `src/components/sections/offer.tsx` → `<DashboardFrame shot={import} />` |
 | Founder photo | `src/components/sections/story.tsx` (placeholder comment) |
 | Founder story (true events only) | `src/components/sections/story.tsx` → `<Placeholder>` |
 | FAQ: minimum capital, "has it ever lost?" | `src/content/faq.tsx` |
@@ -60,6 +59,16 @@ The strip under the hero (`LiveStrip`) shows risk-side numbers only: days live, 
 - It needs the repository secrets `MYFXBOOK_EMAIL` and `MYFXBOOK_PASSWORD`. Without them, or on any API error, the committed snapshot is kept and the build still succeeds.
 - The day count is computed in the browser, so it stays correct between builds.
 - GitHub pauses scheduled workflows after 60 days with no commits. If the date on the strip stops moving, run the workflow by hand or push any commit.
+
+## Portfolio screenshot
+
+`src/assets/portfolio-shot.webp` is a real MT5 screenshot from the VPS, taken 22 Sep 2026. It is wired up in `offer.tsx` together with its alt text and date note.
+
+- Cropped out: the EA settings panel and EA name, the account number, ticket numbers, lot sizes, T/P, margin figures and the RSI pane. These would reveal the strategy.
+- Kept: the price chart with entry levels, the open trades with their empty S/L column, and balance/equity.
+- It was recoloured to the site palette. No figure was changed.
+
+When you re-shoot, hide the EA panel and indicators in MT5 first. Keep the Trade tab open. Then update the date in `offer.tsx`.
 
 ## Share image
 

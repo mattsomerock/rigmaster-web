@@ -3,11 +3,19 @@ import { ImageIcon } from "lucide-react"
 
 import { site } from "@/lib/site"
 
+export type PortfolioShot = {
+  image: StaticImageData
+  /** Describes what the screenshot shows, numbers included (screen readers). */
+  alt: string
+  /** When it was taken and what was hidden — printed under the frame. */
+  note: string
+}
+
 /**
  * Frame for the REAL portfolio screenshot. Until one is supplied (`shot`),
  * it renders a neutral illustrative chart with NO numbers — never fake P&L.
  */
-export function DashboardFrame({ shot }: { shot?: StaticImageData }) {
+export function DashboardFrame({ shot }: { shot?: PortfolioShot }) {
   return (
     <div>
       <figure className="relative overflow-hidden rounded-[6px] border border-line-strong bg-linear-to-b from-surface-2 to-deep shadow-[0_80px_160px_-40px_rgb(0_0_0/0.85),0_0_0_1px_rgb(201_162_39/0.06),0_0_120px_-30px_rgb(201_162_39/0.22)]">
@@ -24,7 +32,10 @@ export function DashboardFrame({ shot }: { shot?: StaticImageData }) {
         </div>
 
         {shot ? (
-          <Image src={shot} alt="หน้าจอพอร์ตหลัก RIG MASTER (ภาพจริง)" sizes="(min-width: 1024px) 1100px, 100vw" className="h-auto w-full" />
+          // Opens the full-size file so phones can pinch-zoom into the trades table.
+          <a href={shot.image.src} target="_blank" rel="noopener" className="block">
+            <Image src={shot.image} alt={shot.alt} placeholder="blur" sizes="(min-width: 1024px) 1200px, 100vw" className="h-auto w-full" />
+          </a>
         ) : (
           <div className="relative grid md:grid-cols-[1fr_220px]">
             <div className="p-4 sm:p-6">
@@ -89,6 +100,12 @@ export function DashboardFrame({ shot }: { shot?: StaticImageData }) {
               {t}
             </span>
           ))}
+          {shot && (
+            <span className="w-full text-[0.75rem] text-muted-foreground sm:ml-auto sm:w-auto">
+              {shot.note}
+              <span className="lg:hidden"> · แตะภาพเพื่อขยาย</span>
+            </span>
+          )}
         </figcaption>
       </figure>
     </div>
