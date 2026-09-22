@@ -14,7 +14,7 @@ npm run lint
 
 ## Deploy — GitHub Pages (automatic)
 
-`.github/workflows/deploy.yml` lints, builds, and publishes on every push to `main`, and every 3 hours to refresh the live data (see below). You can also start it by hand from the Actions tab.
+`.github/workflows/deploy.yml` lints, builds, and publishes on every push to `main`, and every hour to refresh the live data (see below). You can also start it by hand from the Actions tab.
 
 One-time setup: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
 

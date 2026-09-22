@@ -11,9 +11,9 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
-  # Rebuild every 3 hours so the live-data strip picks up fresh Myfxbook numbers.
+  # Rebuild every hour (at :17, off the busy top of the hour) so the live-data strip picks up fresh Myfxbook numbers.
   schedule:
-    - cron: "17 */3 * * *"
+    - cron: "17 * * * *"
 
 permissions:
   contents: read
